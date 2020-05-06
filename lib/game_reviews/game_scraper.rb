@@ -1,8 +1,7 @@
 class GameReviews::GameScraper
     
     def self.scrape_games_index
-        base_url = "https://www.gamespot.com/games/reviews/"
-        games = Nokogiri::HTML(open(base_url))
+        games = Nokogiri::HTML(open("https://www.gamespot.com/games/reviews/"))
         # binding.pry
         games.css(".horizontal-card-item").each do |game|
             game_system = game.css(".horizontal-card-item__label")[0].text
@@ -14,8 +13,4 @@ class GameReviews::GameScraper
             # binding.pry
         end
     end
-
-    # def self.scrape_second_layer(url)
-
-    # end
 end

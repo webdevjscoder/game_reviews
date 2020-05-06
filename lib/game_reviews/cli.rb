@@ -26,7 +26,7 @@ class GameReviews::CLI
                 ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═════╝░╚═╝ ".blue
         puts ""
         puts ""
-        puts "                                      The place to view the your favorite game's review!                            "
+        puts "                                        The place to view your favorite game's review!                            "
         puts ""
         puts "                     Type the number for the game you want more information about or type exit to leave program.           "
         puts ""
@@ -41,18 +41,24 @@ class GameReviews::CLI
 
     def game_menu
         input = nil
-        # puts ""
         while input != "exit"
             input = gets.strip.downcase
             system("clear")
-
             if input.to_i > 0
                 game_selection = GameReviews::Games.find_by_index(input.to_i - 1)
-                puts "---------------------------------------------------------------------------------------------------------------------------       "
-                puts " #{game_selection.title} - #{game_selection.game_system}                                   "
-                puts " Rating Grade: #{game_selection.review}/10 - #{game_selection.review_text}                                  "
-                puts " For information about this game's review,                          "
-                puts " go to #{game_selection.url}"
+                puts "
+                ░██████╗░░█████╗░███╗░░░███╗███████╗  ██████╗░███████╗██╗░░░██╗██╗███████╗░██╗░░░░░░░██╗
+                ██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██╔════╝██║░░░██║██║██╔════╝░██║░░██╗░░██║
+                ██║░░██╗░███████║██╔████╔██║█████╗░░  ██████╔╝█████╗░░╚██╗░██╔╝██║█████╗░░░╚██╗████╗██╔╝
+                ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██╔══██╗██╔══╝░░░╚████╔╝░██║██╔══╝░░░░████╔═████║░
+                ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ██║░░██║███████╗░░╚██╔╝░░██║███████╗░░╚██╔╝░╚██╔╝░
+                ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░".blue 
+                puts "---------------------------------------------------------------------------------------------------------------------------      "
+                puts " Title: ".blue + "#{game_selection.title}"
+                puts " Console: ".blue + "#{game_selection.game_system}"
+                puts " Rating Grade: ".blue + "#{game_selection.review}/10 - #{game_selection.review_text}"
+                puts " For information about this game's review,"
+                puts " go to " + "#{game_selection.url}".cyan.bold
                 puts "---------------------------------------------------------------------------------------------------------------------------       "
                 puts "                                     Type list to view menu again or type exit.                                                 "
             elsif input.downcase == "list"
@@ -61,11 +67,13 @@ class GameReviews::CLI
                 goodbye
             else
                 puts "                                              Invalid input try again.                                            "
+                sleep(1)
+                list_games
             end
         end
     end
 
     def goodbye
-        puts "                                            Goodbye, see you next time for your favorite game's review!                        "
+        puts "                                       Goodbye, see you next time for your favorite game's review!                        "
     end
 end
