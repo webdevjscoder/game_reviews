@@ -1,79 +1,59 @@
 #CLI controller
 class GameReviews::CLI
-
+    # display = GameReviews::Display.new
     def run
         GameReviews::GameScraper.scrape_games_index
-        list_games
-        game_menu
+        welcome
     end
 
-    def list_games
+    def welcome
         system("clear")
-        puts ""
-        puts "
-                    ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗  ████████╗░█████╗░  
-                    ░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝  ╚══██╔══╝██╔══██╗  
-                    ░╚██╗████╗██╔╝█████╗░░██║░░░░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░  ░░░██║░░░██║░░██║  
-                    ░░████╔═████║░██╔══╝░░██║░░░░░██║░░██╗██║░░██║██║╚██╔╝██║██╔══╝░░  ░░░██║░░░██║░░██║  
-                    ░░╚██╔╝░╚██╔╝░███████╗███████╗╚█████╔╝╚█████╔╝██║░╚═╝░██║███████╗  ░░░██║░░░╚█████╔╝  
-                    ░░░╚═╝░░░╚═╝░░╚══════╝╚══════╝░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚══════╝  ░░░╚═╝░░░░╚════╝░  
-                
-                ░██████╗░░█████╗░███╗░░░███╗███████╗  ██████╗░███████╗██╗░░░██╗██╗███████╗░██╗░░░░░░░██╗░██████╗██╗
-                ██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██╔════╝██║░░░██║██║██╔════╝░██║░░██╗░░██║██╔════╝██║
-                ██║░░██╗░███████║██╔████╔██║█████╗░░  ██████╔╝█████╗░░╚██╗░██╔╝██║█████╗░░░╚██╗████╗██╔╝╚█████╗░██║
-                ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██╔══██╗██╔══╝░░░╚████╔╝░██║██╔══╝░░░░████╔═████║░░╚═══██╗╚═╝
-                ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ██║░░██║███████╗░░╚██╔╝░░██║███████╗░░╚██╔╝░╚██╔╝░██████╔╝██╗
-                ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═════╝░╚═╝ ".blue
-        puts ""
-        puts ""
-        puts "                                        The place to view your favorite game's review!                            "
-        puts ""
-        puts "                     Type the number for the game you want more information about or type exit to leave program.           "
-        puts ""
-        puts "                               --------------------------------------------------------------------                                                 "
-        games = GameReviews::Games.all
-        games.each.with_index(1) do |game, index|
-            puts "                               --------------------------------------------------------------------                                                 "
-            puts "                               #{index}. #{game.title}                                                      "
-            puts "                               --------------------------------------------------------------------                                               "
-        end
+        GameReviews::Display.welcome_message
+        input = gets.strip.downcase
+        system("clear")
+            list_options(input)
+            sleep(1)
+            welcome_and_list_games 
     end
 
-    def game_menu
-        input = nil
-        while input != "exit"
+    def list_games 
+            GameReviews::Display.game_list_title
+            games = GameReviews::Games.all
+            games.each.with_index(1) do |game, index|
+                GameReviews::Display.game_index_and_title(game, index)
+            end
+                GameReviews::Display.more_info
+            input = nil
             input = gets.strip.downcase
+            if input.to_i > 0
+                game_menu(input)
+            end
+            list_options(input, display_list = false)
+    end
+
+    def game_menu(input)
             system("clear")
             if input.to_i > 0
                 game_selection = GameReviews::Games.find_by_index(input.to_i - 1)
-                puts "
-                ░██████╗░░█████╗░███╗░░░███╗███████╗  ██████╗░███████╗██╗░░░██╗██╗███████╗░██╗░░░░░░░██╗
-                ██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██╔════╝██║░░░██║██║██╔════╝░██║░░██╗░░██║
-                ██║░░██╗░███████║██╔████╔██║█████╗░░  ██████╔╝█████╗░░╚██╗░██╔╝██║█████╗░░░╚██╗████╗██╔╝
-                ██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██╔══██╗██╔══╝░░░╚████╔╝░██║██╔══╝░░░░████╔═████║░
-                ╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ██║░░██║███████╗░░╚██╔╝░░██║███████╗░░╚██╔╝░╚██╔╝░
-                ░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░".blue 
-                puts "---------------------------------------------------------------------------------------------------------------------------      "
-                puts " Title: ".blue + "#{game_selection.title}"
-                puts " Console: ".blue + "#{game_selection.game_system}"
-                puts " Rating Grade: ".blue + "#{game_selection.review}/10 - #{game_selection.review_text}"
-                puts " For information about this game's review,"
-                puts " go to " + "#{game_selection.url}".cyan.bold
-                puts "---------------------------------------------------------------------------------------------------------------------------       "
-                puts "                                     Type list to view menu again or type exit.                                                 "
-            elsif input.downcase == "list"
-                list_games
-            elsif input.downcase == "exit"
-                goodbye
-            else
-                puts "                                              Invalid input try again.                                            "
-                sleep(1)
-                list_games
+                GameReviews::Display.game_menu_title(game_selection)
+                input = gets.strip.downcase
+                list_options(input)
             end
+    end
+
+    def list_options(input, display_list = true)
+        if display_list == true && input.downcase == "list"
+            list_games
+        elsif input.downcase == "exit"
+            system("clear")
+            GameReviews::Display.goodbye
+            exit
+        else
+            GameReviews::Display.invalid_input
+            input = gets.strip.downcase
+            list_options(input)
         end
     end
 
-    def goodbye
-        puts "                                       Goodbye, see you next time for your favorite game's review!                        "
-    end
+    
 end
