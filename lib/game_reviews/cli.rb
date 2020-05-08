@@ -2,6 +2,8 @@
 class GameReviews::CLI
 
     def run
+        system("clear")
+        GameReviews::Display.loading
         GameReviews::GameScraper.scrape_games_index
         welcome
     end

@@ -1,5 +1,10 @@
 class GameReviews::Display
 
+    def self.loading
+        puts "                                     Loading            "
+        puts "                          This may gonna take a few seconds... "
+    end
+
     def self.welcome_message
         puts ""
         puts "
