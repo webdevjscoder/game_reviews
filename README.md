@@ -1,8 +1,6 @@
 # GameReviews
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/game_reviews`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome to the Game Reviews gem! With this gem you will be able to get information about your favorite game's review (as if the gem title wasn't self explanatory already) at the 'press' of a button, well you will have to do some simply typing, but nonetheless very simple. It is designed for you the 'user' to interact with the CLI to pull up information about the game of your choice. You will be able to see a very brief description, who reviewed the game, and a link to the actual site to view more information. I hope you enjoy it as much I did to create it, have fun!
 
 ## Installation
 
@@ -22,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Once you have the above instructions installed. Go ahead and run the application by typing './bin/game_reviews' in the terminal and watch the gem work its magic.
 
 ## Development
 
