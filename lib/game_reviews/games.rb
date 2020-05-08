@@ -1,5 +1,6 @@
 class GameReviews::Games
-    attr_accessor :game_system, :title, :review, :review_text, :description, :url
+    attr_accessor :game_system, :title, :review, :review_text, :description, :url,
+    :game_mini_description, :game_description_2, :game_review_author, :game_description
 
     @@all = []
 

@@ -1,6 +1,6 @@
 #CLI controller
 class GameReviews::CLI
-    # display = GameReviews::Display.new
+
     def run
         GameReviews::GameScraper.scrape_games_index
         welcome
@@ -16,7 +16,8 @@ class GameReviews::CLI
             welcome_and_list_games 
     end
 
-    def list_games 
+    def list_games
+        system("clear")
             GameReviews::Display.game_list_title
             games = GameReviews::Games.all
             games.each.with_index(1) do |game, index|
@@ -27,8 +28,9 @@ class GameReviews::CLI
             input = gets.strip.downcase
             if input.to_i > 0
                 game_menu(input)
-            end
+            else
             list_options(input, display_list = false)
+            end
     end
 
     def game_menu(input)
@@ -52,8 +54,8 @@ class GameReviews::CLI
             GameReviews::Display.invalid_input
             input = gets.strip.downcase
             list_options(input)
+            system("clear")
         end
     end
 
-    
 end
