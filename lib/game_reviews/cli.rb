@@ -28,7 +28,7 @@ class GameReviews::CLI
                 GameReviews::Display.more_info
             input = nil
             input = gets.strip.downcase
-            if input.to_i > 0
+            if input.to_i.between?(1, games.length)
                 game_menu(input)
             else
             list_options(input, display_list = false)
@@ -54,7 +54,10 @@ class GameReviews::CLI
             exit
         else
             GameReviews::Display.invalid_input
+            games = GameReviews::Games.all
             input = gets.strip.downcase
+            input.to_i.between?(1, games.length)
+            game_menu(input)
             list_options(input)
             system("clear")
         end
